@@ -88,9 +88,9 @@ function switchPlayer() {
 
 const playGame = function (turnChoice) {
     if (activePlayer === 1) {
-        turnChoice = parseInt(prompt(`Which square would you like your ${player1.symbol} in?`), 10);
+        turnChoice = parseInt(prompt(`${player1.name}, which square would you like your ${player1.symbol} in?`), 10);
     } else {
-        turnChoice = parseInt(prompt(`Which square would you like your ${player2.symbol} in?`), 10);
+        turnChoice = parseInt(prompt(`${player2.name}, which square would you like your ${player2.symbol} in?`), 10);
     }
 
     console.log(`The player chose square ${turnChoice}`)
@@ -104,21 +104,23 @@ const playGame = function (turnChoice) {
                         console.log(`cell updated to ${gameboard[i][j][1]}`)
                     } else {
                         alert("Oops. Please choose another square.");
-                        takeTurn();
+                        playGame();
                     }
                 }
             }
         }
     } else {
         alert("Please enter a number between 1 and 9");
-        takeTurn();
+        playGame();
     }
     
     checkWin();
+    // CHECKWIN NOT WORKING
+    // checkFull(); NOT WORKING
     switchPlayer();
     console.log(`The player is now ${activePlayer}`)
     console.log(gameboard)
-    playGame();
+    // playGame(); - DISABLED FOR DEBUGGING
 };
 
 // This seems to be working - need to check with an actual game!
@@ -141,7 +143,7 @@ function resetBoard() {
     }
 }
 
-// Logic for checking for a win
+// Logic for checking for a win - THIS DOESN'T WORK YET
 
 const checkWin = function () {
 
@@ -158,16 +160,37 @@ const checkWin = function () {
 
     for (let i = 0; i < winningConditions.length; i++) {
         const [x, y, z] = winningConditions[i]
+        console.log([x, y, z])
+        console.log([x]);
+        console.log([y]);
+        console.log([z]);
+        console.log(player1.symbol);
+        console.log(player2.symbol);
+
+        // I AM HERE - CHECKING THE X Y AND Z TO SEE WHAT THEY ARE CHECKING AGAINST
+
+        // IS THE PROBLEM HERE? [X] IS NOT CHECKING AGAINST THE RIGHT THING?
+        // IT SHOULDN'T BE CHECKING THE GAMEBOARD ITSELF, BUT THE SECOND PART OF ITS ARRAY!
 
         if (activePlayer === 1) {
-            if (gameboard[x] === player1Symbol && gameboard[y] === player1Symbol && gameboard[z] === player1Symbol) {
+            if (gameboard[x] === player1.symbol && gameboard[y] === player1.symbol && gameboard[z] === player1.symbol) {
                 alert(`${player1} wins! The game will now reset`)
                 resetBoard();
             } else if
-                (gameboard[x] === player2Symbol && gameboard[y] === player2Symbol && gameboard[z] === player2Symbol) {
+                (gameboard[x] === player2.symbol && gameboard[y] === player2.symbol && gameboard[z] === player2.symbol) {
                 alert(`${player2} wins! The game will now reset`)
                 resetBoard();
             }
         }
     }
 }
+
+// THIS DOESNT WORK YET
+
+function checkFull () {
+        if (gameboard.every(cell => cell[1] !== '')) {
+            alert("The board is full. Nobody wins!")
+            resetBoard();
+            setupPlayers();
+        }
+    }
