@@ -27,34 +27,59 @@ function Player(name, symbol) {
 }
 
 const setupPlayers = function () {
-    let player1Name = "Player One"
-    let player1Symbol = "X"
-    let player2Name = "Player Two"
-    let player2Symbol = "O"
 
-    const getNames = function () {
-        player1Name = prompt("Player One, what is your name?", "Player One")
-        alert(`Welcome, ${player1Name}!`)
-        player1Symbol = prompt(`${player1Name}, would you like to play as X or O?`)
-        if (player1Symbol === 'X' || 'O') {
-            alert(`${player1Name} will play as ${player1Symbol}.`)
-        } else {
-            prompt(`Try again, ${player1Name}: enter X or O`)
+    let player1Name = "Player One";
+    let player1Symbol = "X";
+    let player2Name = "Player Two";
+    let player2Symbol = "O";
+
+    const getPlayerInfo = function () {
+
+        // Setting up Player 1:
+
+        player1Name = prompt("Player One, what is your name?", "Player One");
+        alert(`Welcome, ${player1Name}!`);
+
+        player1Symbol = prompt(`${player1Name}, would you like to play as X or O?`, "X");
+
+        while (player1Symbol !== 'X' && player1Symbol !== 'O') {
+            player1Symbol = prompt(`Try again, ${player1Name}: enter X or O`);
         }
 
-        player2Name = prompt("Player Two, what is your name?", "Player Two")
-        alert(`Welcome, ${player2Name}!`)
-        player2Symbol = prompt(`${player2Name}, would you like to play as X or O?`)
-        if (player2Symbol === 'X' || 'O') {
-            alert(`${player2Name} will play as ${player2Symbol}.`)
-        } else {
-            prompt(`Try again, ${player2Name}: enter X or O`)
-        }
+        alert(`${player1Name} will play as ${player1Symbol}.`);
 
-        return { player1Name, player2Name, player1Symbol, player2Symbol};
+        // Setting up Player 2:
+
+        player2Name = prompt("Player Two, what is your name?", "Player Two");
+        alert(`Welcome, ${player2Name}!`);
+
+        if (player1Symbol === 'X') {
+            player2Symbol = 'O';
+        } else if (player1Symbol === 'O') {
+            player2Symbol = 'X';
+        } else {
+            alert("Something went wrong...")
+        }
+        alert(`${player2Name} will play as ${player2Symbol}.`);
+
+        // Return all player values
+
+        return { player1Name, player2Name, player1Symbol, player2Symbol };
     }
-    return getNames();
+
+    return getPlayerInfo();
 }
+
+// This line will automatically run the player setup function and populate the Player object with data
+
+const playersInfo = setupPlayers();
+
+const player1 = new Player(playersInfo.player1Name, playersInfo.player1Symbol);
+const player2 = new Player(playersInfo.player2Name, playersInfo.player2Symbol);
+
+// Player setup is now working!
+
+// TODO - Now to start playing the game itself************
 
 // Logic for resetting the board
 
