@@ -1,4 +1,4 @@
-// Set up the gameboard as a 3x3 grid
+// Set up the gameboard as a 1D array:
 
 const gameboard = function () {
     const cellsRequired = 9;
@@ -12,7 +12,7 @@ const gameboard = function () {
         cell++;
     }
 
-return board;
+    return board;
 }();
 
 // This is now working (v2!) - each cell has two values: cell (to ID it) and value (to replace later with X or 0)
@@ -37,6 +37,7 @@ const setupPlayers = function () {
 
         player1Name = prompt("Player One, what is your name?", "Player One");
         alert(`Welcome, ${player1Name}!`);
+        console.log(`Player 1 has called themselves ${player1Name}`)
 
         player1Symbol = prompt(`${player1Name}, would you like to play as X or O?`, "X");
 
@@ -45,11 +46,13 @@ const setupPlayers = function () {
         }
 
         alert(`${player1Name} will play as ${player1Symbol}.`);
+        console.log(`P1 Symbol: ${player1Symbol}`)
 
         // Setting up Player 2:
 
         player2Name = prompt("Player Two, what is your name?", "Player Two");
         alert(`Welcome, ${player2Name}!`);
+        console.log(`Player 2 has called themselves ${player2Name}`)
 
         if (player1Symbol === 'X') {
             player2Symbol = 'O';
@@ -59,6 +62,7 @@ const setupPlayers = function () {
             alert("Something went wrong...")
         }
         alert(`${player2Name} will play as ${player2Symbol}.`);
+        console.log(`P2 Symbol: ${player2Symbol}`)
 
         // Return all player values
 
@@ -75,12 +79,16 @@ const playersInfo = setupPlayers();
 const player1 = new Player(playersInfo.player1Name, playersInfo.player1Symbol);
 const player2 = new Player(playersInfo.player2Name, playersInfo.player2Symbol);
 
-// Player setup is now working!
+console.log(player1);
+console.log(player2);
 
-let activePlayer = 1
+// Active player and player switching logic:
+
+let activePlayer = 1;
 
 function switchPlayer() {
-    activePlayer === 1 ? activePlayer = 2 : activePlayer = 1
+    console.log(`The current Player is ${activePlayer}`)
+    activePlayer = (activePlayer === 1) ? 2 : 1;
     console.log(`Player switched to Player ${activePlayer}`)
 }
 
@@ -91,21 +99,22 @@ const playGame = function (turnChoice) {
         turnChoice = parseInt(prompt(`${player2.name}, which square would you like your ${player2.symbol} in?`), 10);
     }
 
-    console.log(`The player chose square ${turnChoice}`)
+    console.log(`Player ${activePlayer} chose square ${turnChoice}`)
+    console.log(`This means that the target cell should be ${turnChoice - 1}, which has an ID of ${gameboard[turnChoice - 1][0]}. The value there is currently ${gameboard[turnChoice - 1][1]}`)
 
     if (turnChoice > 0 && turnChoice < 10) {
-        for (let i = 0; i < gameboard.length; i++) {
-            for (let j = 0; j < gameboard.length; j++) {
-                if (gameboard[i][j][0] === turnChoice) {
-                    if (gameboard[i][j][1] === '') {
-                        gameboard[i][j][1] = (activePlayer === 1 ? player1.symbol : player2.symbol);
-                        console.log(`cell updated to ${gameboard[i][j][1]}`)
-                    } else {
-                        alert("Oops. Please choose another square.");
-                        playGame();
-                    }
-                }
+
+        if (gameboard[turnChoice - 1][1] === undefined) {
+            if (activePlayer === 1) {
+                gameboard[turnChoice - 1][1] = player1.symbol;
+                console.log(`cell ID ${gameboard[turnChoice - 1][0]} updated to ${gameboard[turnChoice - 1][1]}`);
+            } else if (activePlayer === 2) {
+                gameboard[turnChoice - 1][1] = player2.symbol;
+                console.log(`cell ID ${gameboard[turnChoice - 1][0]} updated to ${gameboard[turnChoice - 1][1]}`);
             }
+        } else {
+            alert("Oops. Please choose another square.");
+            playGame();
         }
     } else {
         alert("Please enter a number between 1 and 9");
@@ -113,35 +122,29 @@ const playGame = function (turnChoice) {
     }
 
     checkWin();
-    // CHECKWIN NOT WORKING
-    // checkFull(); NOT WORKING
+    console.log("checkWin() just ran. Did it bloody work?!")
     switchPlayer();
     console.log(`The player is now ${activePlayer}`)
     console.log(gameboard)
-    // playGame(); - DISABLED FOR DEBUGGING
+    playGame();
 };
-
-// This seems to be working - need to check with an actual game!
 
 // Logic for resetting the board - This probably won't be needed
 
 function resetBoard() {
-    const columns = 3;
-    const rows = 3;
+    const cellsRequired = 9;
     const board = [];
     let cell = 1;
     let value = '';
 
-    for (let i = 0; i < columns; i++) {
+    for (let i = 0; i < cellsRequired; i++) {
         board[i] = [];
-        for (let j = 0; j < rows; j++) {
-            board[i].push([cell, value]);
-            cell++;
-        }
+        board[i].push([cell, value]);
+        cell++;
     }
 }
 
-// Logic for checking for a win - THIS DOESN'T WORK YET
+// Logic for checking for a win - now mostly working, except doesn't stop playing after a win
 
 const checkWin = function () {
 
@@ -156,59 +159,41 @@ const checkWin = function () {
         [3, 5, 7]
     ];
 
-    // There are 8 winning combos, each of which need to be iterated over 3 times:
-
-    // Checked: i = 8
-
     for (let i = 0; i < winningConditions.length; i++) {
-
-        // This should happen 8 times as i = 8
 
         let Xcount = 0;
         let Ocount = 0;
 
         for (let j = 0; j < winningConditions[i].length; j++) {
 
-            console.log(`ij check number: ${i}, ${j}`)
-            console.log(`Checking cell: ${gameboard[i][j]}`)
+            let checkCell = ((winningConditions[i][j]) - 1);
 
-            // Why is this incrementing by 1? This shouldn't be incrementing at all, should it?
+            console.log(`Check ref: ${i},${j}`)
+            console.log(`Cell being checked now is ${checkCell}. The ID of that cell is ${gameboard[checkCell][0]} What is in that cell is ${gameboard[checkCell][1]}`)
 
-            console.log(`gameboard[i][j][1]: ${gameboard[i][j][1]}`)
-            console.log(`winningConditions[i]: ${winningConditions[i]}`)
-            console.log(`winningConditions[i][j]: ${winningConditions[i][j]}`)
-
-            // The issue is here - it seems to be checking the wrong thing!!!
-
-            if (gameboard[i][j][1] === 'X') {
+            if (gameboard[checkCell][1] === 'X') {
                 Xcount++;
 
-            } else if (gameboard[i][j][1] === 'O') {
+            } else if (gameboard[checkCell][1] === 'O') {
                 Ocount++;
+            }
+
+            if (Xcount === 3) {
+                alert(`${player1.name} wins!`);
+                break;
+            } else if (Ocount === 3) {
+                alert(`${player2.name} wins!`);
+                break;
             }
 
             console.log(`Xcount = ${Xcount}`);
             console.log(`Ocount = ${Ocount}`);
-
-            // if (Xcount === 3) {
-            //     if (player1.symbol === 'X') {
-            //         alert(`${player1.name} wins!`)
-            //     } else if (player2.symbol === 'X') {
-            //         alert(`${player2.name} wins!`)
-            //     }
-            // } else if (Ocount === 3) {
-            //     if (player1.symbol === 'O') {
-            //         alert(`${player1.name} wins!`)
-            //     } else if (player2.symbol === 'O') {
-            //         alert(`${player2.name} wins!`)
-            //     }
-            // }
         }
     }
 }
 
 function checkFull() {
-    if (gameboard.every(cell => cell[1] !== '')) {
+    if (gameboard.every(cell => cell[1] !== undefined)) {
         alert("The board is full. Nobody wins!")
         resetBoard();
         setupPlayers();
