@@ -158,19 +158,29 @@ const checkWin = function () {
         [3, 5, 7]
     ];
 
+    // There are 8 winning combos, each of which need to be iterated over 3 times:
+
+    // Checked: i = 8
+
     for (let i = 0; i < winningConditions.length; i++) {
+
+        // This should happen 8 times as i = 8
+
         let Xcount = 0;
         let Ocount = 0;
-        console.log(`i check number: ${i}`)
-        console.log(`winningConditions[i].length = ${winningConditions[i].length}`)
+
         for (let j = 0; j < winningConditions[i].length; j++) {
 
-            console.log(`j check number: ${j}`)
             console.log(`ij check number: ${i}, ${j}`)
             console.log(`Checking cell: ${gameboard[i][j]}`)
+
+            // Why is this incrementing by 1? This shouldn't be incrementing at all, should it?
+
             console.log(`gameboard[i][j][1]: ${gameboard[i][j][1]}`)
             console.log(`winningConditions[i]: ${winningConditions[i]}`)
             console.log(`winningConditions[i][j]: ${winningConditions[i][j]}`)
+
+            // The issue is here - it seems to be checking the wrong thing!!!
 
             if (gameboard[i][j][1] === 'X') {
                 Xcount++;
@@ -182,19 +192,19 @@ const checkWin = function () {
             console.log(`Xcount = ${Xcount}`);
             console.log(`Ocount = ${Ocount}`);
 
-            if (Xcount === 3) {
-                if (player1.symbol === 'X') {
-                    alert(`${player1.name} wins!`)
-                } else if (player2.symbol === 'X') {
-                    alert(`${player2.name} wins!`)
-                }
-            } else if (Ocount === 3) {
-                if (player1.symbol === 'O') {
-                    alert(`${player1.name} wins!`)
-                } else if (player2.symbol === 'O') {
-                    alert(`${player2.name} wins!`)
-                }
-            }
+            // if (Xcount === 3) {
+            //     if (player1.symbol === 'X') {
+            //         alert(`${player1.name} wins!`)
+            //     } else if (player2.symbol === 'X') {
+            //         alert(`${player2.name} wins!`)
+            //     }
+            // } else if (Ocount === 3) {
+            //     if (player1.symbol === 'O') {
+            //         alert(`${player1.name} wins!`)
+            //     } else if (player2.symbol === 'O') {
+            //         alert(`${player2.name} wins!`)
+            //     }
+            // }
         }
     }
 }
