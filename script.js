@@ -113,7 +113,7 @@ const playGame = function (turnChoice) {
         alert("Please enter a number between 1 and 9");
         playGame();
     }
-    
+
     checkWin();
     // CHECKWIN NOT WORKING
     // checkFull(); NOT WORKING
@@ -159,38 +159,50 @@ const checkWin = function () {
     ];
 
     for (let i = 0; i < winningConditions.length; i++) {
-        const [x, y, z] = winningConditions[i]
-        console.log([x, y, z])
-        console.log([x]);
-        console.log([y]);
-        console.log([z]);
-        console.log(player1.symbol);
-        console.log(player2.symbol);
+        let Xcount = 0;
+        let Ocount = 0;
+        console.log(`i check number: ${i}`)
+        console.log(`winningConditions[i].length = ${winningConditions[i].length}`)
+        for (let j = 0; j < winningConditions[i].length; j++) {
 
-        // I AM HERE - CHECKING THE X Y AND Z TO SEE WHAT THEY ARE CHECKING AGAINST
+            console.log(`j check number: ${j}`)
+            console.log(`ij check number: ${i}, ${j}`)
+            console.log(`Checking cell: ${gameboard[i][j]}`)
+            console.log(`gameboard[i][j][1]: ${gameboard[i][j][1]}`)
+            console.log(`winningConditions[i]: ${winningConditions[i]}`)
+            console.log(`winningConditions[i][j]: ${winningConditions[i][j]}`)
 
-        // IS THE PROBLEM HERE? [X] IS NOT CHECKING AGAINST THE RIGHT THING?
-        // IT SHOULDN'T BE CHECKING THE GAMEBOARD ITSELF, BUT THE SECOND PART OF ITS ARRAY!
+            if (gameboard[i][j][1] === 'X') {
+                Xcount++;
 
-        if (activePlayer === 1) {
-            if (gameboard[x] === player1.symbol && gameboard[y] === player1.symbol && gameboard[z] === player1.symbol) {
-                alert(`${player1} wins! The game will now reset`)
-                resetBoard();
-            } else if
-                (gameboard[x] === player2.symbol && gameboard[y] === player2.symbol && gameboard[z] === player2.symbol) {
-                alert(`${player2} wins! The game will now reset`)
-                resetBoard();
+            } else if (gameboard[i][j][1] === 'O') {
+                Ocount++;
+            }
+
+            console.log(`Xcount = ${Xcount}`);
+            console.log(`Ocount = ${Ocount}`);
+
+            if (Xcount === 3) {
+                if (player1.symbol === 'X') {
+                    alert(`${player1.name} wins!`)
+                } else if (player2.symbol === 'X') {
+                    alert(`${player2.name} wins!`)
+                }
+            } else if (Ocount === 3) {
+                if (player1.symbol === 'O') {
+                    alert(`${player1.name} wins!`)
+                } else if (player2.symbol === 'O') {
+                    alert(`${player2.name} wins!`)
+                }
             }
         }
     }
 }
 
-// THIS DOESNT WORK YET
-
-function checkFull () {
-        if (gameboard.every(cell => cell[1] !== '')) {
-            alert("The board is full. Nobody wins!")
-            resetBoard();
-            setupPlayers();
-        }
+function checkFull() {
+    if (gameboard.every(cell => cell[1] !== '')) {
+        alert("The board is full. Nobody wins!")
+        resetBoard();
+        setupPlayers();
     }
+}
