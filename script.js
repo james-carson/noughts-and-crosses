@@ -1,23 +1,21 @@
 // Set up the gameboard as a 3x3 grid
 
 const gameboard = function () {
-    const columns = 3;
-    const rows = 3;
+    const cellsRequired = 9;
     const board = [];
     let cell = 1;
     let value = '';
 
-    for (let i = 0; i < columns; i++) {
+    for (let i = 0; i < cellsRequired; i++) {
         board[i] = [];
-        for (let j = 0; j < rows; j++) {
-            board[i].push([cell, value]);
-            cell++;
-        }
+        board[i].push([cell, value]);
+        cell++;
     }
-    return board;
+
+return board;
 }();
 
-// This is now working - each cell has two values: cell (to ID it) and value (to replace later with X or 0)
+// This is now working (v2!) - each cell has two values: cell (to ID it) and value (to replace later with X or 0)
 
 // Logic for creation and storage of players
 
