@@ -121,8 +121,21 @@ const playGame = function (turnChoice) {
         playGame();
     }
 
-    checkWin();
-    console.log("checkWin() just ran. Did it bloody work?!")
+    const winner = checkWin();
+    console.log("checkWin() just ran. Did it work?!");
+
+    if (winner) {
+        console.log(`${winner} has won!`);
+        return;
+    }
+
+    const full = checkFull();
+
+    if (full) {
+        console.log("The board is full");
+        return;
+    }
+
     switchPlayer();
     console.log(`The player is now ${activePlayer}`)
     console.log(gameboard)
@@ -180,10 +193,10 @@ const checkWin = function () {
 
             if (Xcount === 3) {
                 alert(`${player1.name} wins!`);
-                break;
+                return 'Xwin';
             } else if (Ocount === 3) {
                 alert(`${player2.name} wins!`);
-                break;
+                return 'Owin';
             }
 
             console.log(`Xcount = ${Xcount}`);
@@ -195,7 +208,7 @@ const checkWin = function () {
 function checkFull() {
     if (gameboard.every(cell => cell[1] !== undefined)) {
         alert("The board is full. Nobody wins!")
-        resetBoard();
-        setupPlayers();
+        return true;
     }
+    return false;
 }
