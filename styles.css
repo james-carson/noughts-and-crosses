@@ -119,11 +119,7 @@ body {
 
 #header {
     grid-column: 1 / 4;
-    /* font-family: 'fff_tusjbold'; */
-    /* font-family: 'grand_hotelregular'; */
     font-family: 'pacificoregular';
-    /* font-family: 'sofiaregular'; */
-    /* color: var(--light-blue-lighter); */
     font-size: 1.5em;
 }
 
@@ -184,6 +180,18 @@ button:hover {
     font-size: 2.5em;
 }
 
+.ul {
+    text-decoration: underline;
+}
+
+.bigger {
+    font-size: 1.2em;
+}
+
+.smaller {
+    font-size: 0.8em;
+}
+
 #footer {
     font-family: 'grand_hotelregular';
     font-size: 2em;
@@ -199,7 +207,7 @@ button:hover {
 }
 
 #footer_top{
-    font-size: 0.9em;
+    font-size: 0.8em;
     align-items: end;
     margin-top: 10px;
 }

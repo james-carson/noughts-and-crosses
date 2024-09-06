@@ -45,6 +45,7 @@ const playGame = function (turnChoice) {
     if (turnChoice > 0 && turnChoice < 10) {
 
         if (gameboard[turnChoice - 1][1] === undefined) {
+            // ChatGPT says this should be ''
             if (activePlayer === 1) {
                 gameboard[turnChoice - 1][1] = player1.symbol;
                 console.log(`cell ID ${gameboard[turnChoice - 1][0]} updated to ${gameboard[turnChoice - 1][1]}`);
@@ -162,127 +163,67 @@ const p2_symbol = document.getElementById("p2_symbol");
 
 const setupPlayers = () => {
 
-    const footer_top = document.getElementById("footer_top");
-    const footer_bottom = document.getElementById("footer_bottom");
+    setTimeout(() => {
+        const footer_top = document.getElementById("footer_top");
+        const footer_bottom = document.getElementById("footer_bottom");
 
-    footer_top.textContent = 'Welcome to Tic Tac... Wait, no, that\'s not right...';
-    footer_bottom.textContent = 'Welcome to Noughts and Crosses!';
+        footer_top.textContent = 'Welcome to Tic Tac... Wait, no, that\'s not right...';
+        footer_bottom.textContent = 'Welcome to Noughts and Crosses!';
 
-    // Get Player 1 Name:
+        // Get Player 1 Name:
 
-    const player1Name = function () {
-        player1Name = prompt("Player One, what is your name?");
+        setTimeout(() => {
+            let player1Name = prompt("Player One, what is your name?", "Player One");
 
-        footer_top.textContent = footer_bottom.textContent;
-        footer_bottom.textContent = `Player 1 has called themselves ${player1Name}`;
-
-        p1_name.textContent = player1Name;
-    }
-
-    player1Name();
-
-    // Get Player 1 Symbol:
-
-    const player1Symbol = function (player1Name) {
-        player1Symbol = prompt`${player1Name}, would you like to play as X or O?`;
-
-        if (player1Symbol === 'X' || 'O') {
             footer_top.textContent = footer_bottom.textContent;
-            footer_bottom.textContent = `${player1Name} will play as ${player1Symbol}`;
-            p1_symbol.textContent = player1Symbol;
-        } else {
-            prompt(`Try again, ${player1Name}: enter X or O`)
-        }
-        footer_top.textContent = footer_bottom.textContent;
-        footer_bottom.textContent = `${player1Name} will play as ${player1Symbol}`;
-        p1_symbol.textContent = player1Symbol;
-    }
+            footer_bottom.textContent = `Player 1 has called themselves ${player1Name}`;
 
-    player1Symbol(player1Name);
+            p1_name.textContent = player1Name;
 
-    // Get Player 2 Name:
+            // Get Player 1 Symbol:
+
+            setTimeout(() => {
+                let player1Symbol;
+                do {
+                    player1Symbol = prompt(`${player1Name}, would you like to play as X or O?`, 'X');
+                } while (player1Symbol !== 'X' && player1Symbol !== 'O');
+
+                footer_top.textContent = footer_bottom.textContent;
+                if (player1Symbol = 'X') {
+                    footer_bottom.textContent = `${player1Name} will play as ${player1Symbol}`;
+                    p1_symbol.textContent = player1Symbol;
+                    // I want to come back and add an image here!
+                }
 
 
-    const player2Name = function () {
-        player2Name = prompt("Player Two, what is your name?");
+                // Get Player 2 Name:
 
-        footer_top.textContent = footer_bottom.textContent;
-        footer_bottom.textContent = `Player 2 has called themselves ${player2Name}`;
+                setTimeout(() => {
+                    let player2Name = prompt("Player Two, what is your name?", 'Player Two');
 
-        p2_name.textContent = player2Name;
-    }
+                    footer_top.textContent = footer_bottom.textContent;
+                    footer_bottom.textContent = `Player 2 has called themselves ${player2Name}`;
 
-    player2Name();
+                    p2_name.textContent = player2Name;
 
-    // Get Player 2 Symbol:
+                    // Get Player 2 Symbol:
 
-    const player2Symbol = function (player2Symbol) {
+                    setTimeout(() => {
+                        let player2Symbol = player1Symbol === 'X' ? 'O' : 'X';
+                        alert(`${player2Name} will play as ${player2Symbol}`)
 
-        if (player1Symbol === 'X') {
-            player2Symbol = 'O';
-        } else if (player1Symbol === 'O') {
-            player2Symbol = 'X';
-        }
+                        footer_top.textContent = footer_bottom.textContent
+                        footer_bottom.textContent = `${player2Name} will play as ${player2Symbol}`;
+                        p2_symbol.textContent = player2Symbol;
 
-        footer_top.textContent = footer_bottom.textContent
-        footer_bottom.textContent = `${player2Name} will play as ${player2Symbol}`;
-        p2_symbol.textContent = player2Symbol;
-    }
+                        return { player1Name, player1Symbol, player2Name, player2Symbol };
 
-    player2Symbol(player2Name);
-
-    return { player1Name, player1Symbol, player2Name, player2Symbol };
+                    }, 100);
+                }, 100);
+            }, 100);
+        }, 100);
+    }, 100);
 }
-
-// Previous functions (now deleted) below:
-
-// const getPlayer1Name = function () {
-
-//     let player1Name;
-//     player1Name = prompt("Player One, what is your name?");
-
-//     footer_top.textContent = footer_bottom.textContent;
-//     footer_bottom.textContent = `Player 1 has called themselves ${player1Name}`;
-
-//     p1_name.textContent = player1Name;
-
-// }
-
-// const getPlayer1Symbol = function (player1Name) {
-
-//     let player1Symbol
-//     player1Symbol = `${player1Name}, would you like to play as X or O?`;
-
-//     footer_top.textContent = footer_bottom.textContent;
-//     footer_bottom.textContent = `${player1Name} will play as ${player1Symbol}`;
-//         p1_symbol.textContent = player1Symbol;
-// }
-
-// const getPlayer2Name = function () {
-
-//     let player2Name;
-//     player2Name = prompt("Player Two, what is your name?");
-
-//     footer_top.textContent = footer_bottom.textContent;
-//     footer_bottom.textContent = `Player 2 has called themselves ${player2Name}`;
-
-//     p2_name.textContent = player2Name;
-// }
-
-// const getPlayer2Symbol = function (player2Name) {
-
-//     let player2Symbol;
-
-//     if (player1Symbol === 'X') {
-//         player2Symbol = 'O';
-//     } else if (player1Symbol === 'O') {
-//         player2Symbol = 'X';
-//     }
-
-//     footer_top.textContent = footer_bottom.textContent
-//     footer_bottom.textContent = `${player2Name} will play as ${player2Symbol}`;
-//     p2_symbol.textContent = player2Symbol;
-// }
 
 const playersInfo = setupPlayers();
 
@@ -291,3 +232,14 @@ const player2 = new Player(playersInfo.player2Name, playersInfo.player2Symbol);
 
 console.log(player1);
 console.log(player2);
+
+// To-do - NEXT STEPS/IMPORTANT:
+// --Set-up event listeners for the buttons so that they are clickable and run the game properly.
+
+// To-do - Medium:
+// Ensure that player switching shows up in the text box
+
+// To-do - Minor:
+// Add images for the 'Playing as:' sections of the board
+// Add a reset button?
+// Check line 48 - may need to be switched. This is if (gameboard[turnChoice - 1][1] === undefined) { to if (gameboard[turnChoice - 1][1] === '') {
