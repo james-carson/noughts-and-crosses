@@ -51,8 +51,6 @@ h6 {
 /* My CSS: */
 
 body {
-    justify-items: center;
-    align-items: center;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -66,12 +64,25 @@ body {
     justify-items: center;
 }
 
+#header, #middle_left, #middle_right, #footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #header {
     grid-column: 1 / 4;
 }
 
-div {
-    outline: 1px black solid;
+div, button {
+    /* Temporary for spacing */
+    /* outline: 1px black solid; */
+
+    border: none;
+    height: 100%;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
 }
 
 #middle_left{
@@ -79,13 +90,13 @@ div {
 }
 
 #middle_middle {
+    height: 100%;
+    width: 100%;
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    justify-items: center;
-    align-items: center;
 }
 
 #middle_right {
@@ -95,11 +106,20 @@ div {
 .cell {
     background-color: white;
     justify-self: center;
-    height: calc(100% / 3);
-    width: calc(100% / 3);
+    height: 100%;
+    width: 100%;
 }
 
 #footer {
-    align-items: start;
     grid-column: 1 / 4;
+}
+
+.border_hor {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.border_ver {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
 }
