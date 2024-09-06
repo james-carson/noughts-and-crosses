@@ -225,24 +225,22 @@ const p2_symbol = document.getElementById("p2_symbol");
 
 const setupPlayers = function () {
 
-    let player1Name = "Player One";
-    let player1Symbol = "X";
-    let player2Name = "Player Two";
-    let player2Symbol = "O";
+    let player1Name;;
+    let player1Symbol;
+    let player2Name;
+    let player2Symbol;
 
     const getPlayerInfo = function () {
 
-        const footer = document.getElementById("footer");
-        footer.textContent = '';
+        const footer_top = document.getElementById("footer_top");
+        const footer_bottom = document.getElementById("footer_bottom");
+        footer_top.textContent = '';
+        footer_bottom.textContent = '';
 
-        const p1_name = document.getElementById("p1_name");
-        const p1_symbol = document.getElementById("p1_symbol");
-        const p2_name = document.getElementById("p2_name");
-        const p2_symbol = document.getElementById("p2_symbol");
 
         // Player 1 Name
 
-        getPlayer1Name = function () {
+        const getPlayer1Name = function () {
 
             const label = document.createElement('label');
 
@@ -256,22 +254,24 @@ const setupPlayers = function () {
             const submitButton = document.createElement('button');
             submitButton.textContent = 'Submit';
 
-            footer.appendChild(label);
-            footer.appendChild(inputField);
-            footer.appendChild(submitButton);
+            footer_top.textContent = footer_bottom.textContent
+            footer_bottom.appendChild(label);
+            footer_bottom.appendChild(inputField);
+            footer_bottom.appendChild(submitButton);
 
             submitButton.addEventListener('click', () => {
-                const player1Name = inputField.value || 'Player One';
-                footer.textContent = `Player 1 has called themselves ${player1Name}`;
+                player1Name = inputField.value || 'Player One';
+                footer_bottom.textContent = `Player 1 has called themselves ${player1Name}`;
 
                 p1_name.textContent = player1Name;
+
+                getPlayer1Symbol(player1Name);
             })
-            return player1Name
         }
 
         // Player 1 Symbol:
 
-        getPlayer1Symbol = function (player1Name) {
+        const getPlayer1Symbol = function (player1Name) {
 
             const label = document.createElement('label');
 
@@ -287,22 +287,25 @@ const setupPlayers = function () {
             const submitButton = document.createElement('button');
             submitButton.textContent = 'Submit';
 
-            footer.appendChild(label);
-            footer.appendChild(inputField);
-            footer.appendChild(submitButton);
+            footer_top.textContent = footer_bottom.textContent
+            footer_bottom.appendChild(label);
+            footer_bottom.appendChild(inputField);
+            footer_bottom.appendChild(submitButton);
 
             submitButton.addEventListener('click', () => {
-                const player1Symbol = inputField.value || 'X';
-                footer.textContent = `${player1Name} will play as ${player1Symbol}`;
+                player1Symbol = inputField.value || 'X';
+                footer_top.textContent = footer_bottom.textContent
+                footer_bottom.textContent = `${player1Name} will play as ${player1Symbol}`;
 
                 p1_symbol.textContent = player1Symbol;
+
+                getPlayer2Name();
             })
-            return player1Symbol
         }
 
         // Player 2 Name
 
-        getPlayer2Name = function (player1Symbol) {
+        const getPlayer2Name = function (player1Symbol) {
 
             const label = document.createElement('label');
 
@@ -316,22 +319,25 @@ const setupPlayers = function () {
             const submitButton = document.createElement('button');
             submitButton.textContent = 'Submit';
 
-            footer.appendChild(label);
-            footer.appendChild(inputField);
-            footer.appendChild(submitButton);
+            footer_top.textContent = footer_bottom.textContent
+            footer_bottom.appendChild(label);
+            footer_bottom.appendChild(inputField);
+            footer_bottom.appendChild(submitButton);
 
             submitButton.addEventListener('click', () => {
-                const player2Name = inputField.value || 'Player Two';
-                footer.textContent = `Player 2 has called themselves ${player2Name}`;
+                player2Name = inputField.value || 'Player Two';
+                footer_top.textContent = footer_bottom.textContent
+                footer_bottom.textContent = `Player 2 has called themselves ${player2Name}`;
 
                 p2_name.textContent = player2Name;
+
+                getPlayer2Symbol(player2Name);
             })
-            return player2Name
         }
 
         // Player 2 Symbol
 
-        getPlayer2Symbol = function (player2Name) {
+        const getPlayer2Symbol = function (player2Name) {
 
             if (player1Symbol === 'X') {
                 player2Symbol = 'O';
@@ -339,16 +345,15 @@ const setupPlayers = function () {
                 player2Symbol = 'X';
             }
 
-            footer.textContent = `Player 2 will play as ${player2Symbol}`;
+            footer_top.textContent = footer_bottom.textContent
+            footer_bottom.textContent = `${player2Name} will play as ${player2Symbol}`;
             p2_symbol.textContent = player2Symbol;
-
-            return player2Symbol
         }
 
         return { player1Name, player2Name, player1Symbol, player2Symbol };
     }
 
-    return getPlayerInfo();
+    getPlayerInfo();
 }
 
 const playersInfo = setupPlayers();
