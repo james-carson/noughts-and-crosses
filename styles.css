@@ -207,13 +207,11 @@ button:hover {
 }
 
 #footer_top{
-    font-size: 0.8em;
     align-items: end;
     margin-top: 10px;
 }
 
 #footer_bottom{
-    font-size: 1.1em;
     font-weight: bold;
     align-items: start;
 }
