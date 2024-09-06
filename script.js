@@ -240,9 +240,9 @@ const setupPlayers = function () {
         const p2_name = document.getElementById("p2_name");
         const p2_symbol = document.getElementById("p2_symbol");
 
-        getPlayer1Name = function () {
+        // Player 1 Name
 
-            // Setting up Player 1:
+        getPlayer1Name = function () {
 
             const label = document.createElement('label');
 
@@ -264,14 +264,14 @@ const setupPlayers = function () {
                 const player1Name = inputField.value || 'Player One';
                 footer.textContent = `Player 1 has called themselves ${player1Name}`;
 
-                p1_symbol.textContent = player1Symbol;
+                p1_name.textContent = player1Name;
             })
-            return player1Symbol
+            return player1Name
         }
 
-        getPlayer1Symbol = function(player1Name) {
+        // Player 1 Symbol:
 
-            // Setting up Player 1 Symbol
+        getPlayer1Symbol = function (player1Name) {
 
             const label = document.createElement('label');
 
@@ -295,39 +295,55 @@ const setupPlayers = function () {
                 const player1Symbol = inputField.value || 'X';
                 footer.textContent = `${player1Name} will play as ${player1Symbol}`;
 
-                p1_name.textContent = player1Name;
+                p1_symbol.textContent = player1Symbol;
             })
             return player1Symbol
         }
 
-        // Up to here - Need to set up player 2 now *****************************
+        // Player 2 Name
 
-        player1Symbol = footer.textContent = input(`${player1Name}, would you like to play as X or O?`, "X");
+        getPlayer2Name = function (player1Symbol) {
 
-        while (player1Symbol !== 'X' && player1Symbol !== 'O') {
-            footer.textContent = input(`Try again, ${player1Name}: enter X or O`);
+            const label = document.createElement('label');
+
+            label.textContent = "Player Two, what is your name?";
+
+            const inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.id = 'player2NameInput';
+            inputField.placeholder = 'Player Two';
+
+            const submitButton = document.createElement('button');
+            submitButton.textContent = 'Submit';
+
+            footer.appendChild(label);
+            footer.appendChild(inputField);
+            footer.appendChild(submitButton);
+
+            submitButton.addEventListener('click', () => {
+                const player2Name = inputField.value || 'Player Two';
+                footer.textContent = `Player 2 has called themselves ${player2Name}`;
+
+                p2_name.textContent = player2Name;
+            })
+            return player2Name
         }
 
-        footer.textContent = `${player1Name} will play as ${player1Symbol}.`;
-        console.log(`P1 Symbol: ${player1Symbol}`)
+        // Player 2 Symbol
 
-        // Setting up Player 2:
+        getPlayer2Symbol = function (player2Name) {
 
-        player2Name = prompt("Player Two, what is your name?", "Player Two");
-        alert(`Welcome, ${player2Name}!`);
-        console.log(`Player 2 has called themselves ${player2Name}`)
+            if (player1Symbol === 'X') {
+                player2Symbol = 'O';
+            } else if (player1Symbol === 'O') {
+                player2Symbol = 'X';
+            }
 
-        if (player1Symbol === 'X') {
-            player2Symbol = 'O';
-        } else if (player1Symbol === 'O') {
-            player2Symbol = 'X';
-        } else {
-            alert("Something went wrong...")
+            footer.textContent = `Player 2 will play as ${player2Symbol}`;
+            p2_symbol.textContent = player2Symbol;
+
+            return player2Symbol
         }
-        alert(`${player2Name} will play as ${player2Symbol}.`);
-        console.log(`P2 Symbol: ${player2Symbol}`)
-
-        // Return all player values
 
         return { player1Name, player2Name, player1Symbol, player2Symbol };
     }
