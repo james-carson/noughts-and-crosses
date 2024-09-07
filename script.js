@@ -32,59 +32,6 @@ function switchPlayer() {
     console.log(`Player switched to Player ${activePlayer}`)
 }
 
-// Commented out to work on it below
-
-// const playGame = function (turnChoice) {
-//     if (activePlayer === 1) {
-//         turnChoice = parseInt(prompt(`${player1.name}, which square would you like your ${player1.symbol} in?`), 10);
-//     } else {
-//         turnChoice = parseInt(prompt(`${player2.name}, which square would you like your ${player2.symbol} in?`), 10);
-//     }
-
-//     console.log(`Player ${activePlayer} chose square ${turnChoice}`)
-//     console.log(`This means that the target cell should be ${turnChoice - 1}, which has an ID of ${gameboard[turnChoice - 1][0]}. The value there is currently ${gameboard[turnChoice - 1][1]}`)
-
-//     if (turnChoice > 0 && turnChoice < 10) {
-
-//         if (gameboard[turnChoice - 1][1] === undefined) {
-//             // ChatGPT says this should be ''
-//             if (activePlayer === 1) {
-//                 gameboard[turnChoice - 1][1] = player1.symbol;
-//                 console.log(`cell ID ${gameboard[turnChoice - 1][0]} updated to ${gameboard[turnChoice - 1][1]}`);
-//             } else if (activePlayer === 2) {
-//                 gameboard[turnChoice - 1][1] = player2.symbol;
-//                 console.log(`cell ID ${gameboard[turnChoice - 1][0]} updated to ${gameboard[turnChoice - 1][1]}`);
-//             }
-//         } else {
-//             alert("Oops. Please choose another square.");
-//             playGame();
-//         }
-//     } else {
-//         alert("Please enter a number between 1 and 9");
-//         playGame();
-//     }
-
-//     const winner = checkWin();
-//     console.log("checkWin() just ran. Did it work?!");
-
-//     if (winner) {
-//         console.log(`${winner} has won!`);
-//         return;
-//     }
-
-//     const full = checkFull();
-
-//     if (full) {
-//         console.log("The board is full");
-//         return;
-//     }
-
-//     switchPlayer();
-//     console.log(`The player is now ${activePlayer}`)
-//     console.log(gameboard)
-//     playGame();
-// };
-
 // Logic for resetting the board - This probably won't be needed
 
 function resetBoard() {
@@ -163,9 +110,11 @@ const p1_symbol = document.getElementById("p1_symbol");
 const p2_name = document.getElementById("p2_name");
 const p2_symbol = document.getElementById("p2_symbol");
 
+const cells = Array.from(document.querySelectorAll('.cell'));
+
 const setupPlayers = () => {
 
-    setTimeout(() => {
+    // setTimeout(() => {
         const footer_top = document.getElementById("footer_top");
         const footer_bottom = document.getElementById("footer_bottom");
 
@@ -174,7 +123,7 @@ const setupPlayers = () => {
 
         // Get Player 1 Name:
 
-        setTimeout(() => {
+        // setTimeout(() => {
             let player1Name = prompt("Player One, what is your name?", "Player One");
 
             footer_top.textContent = footer_bottom.textContent;
@@ -184,7 +133,7 @@ const setupPlayers = () => {
 
             // Get Player 1 Symbol:
 
-            setTimeout(() => {
+            // setTimeout(() => {
                 let player1Symbol;
                 do {
                     player1Symbol = prompt(`${player1Name}, would you like to play as X or O?`, 'X');
@@ -197,7 +146,7 @@ const setupPlayers = () => {
 
                 // Get Player 2 Name:
 
-                setTimeout(() => {
+                // setTimeout(() => {
                     let player2Name = prompt("Player Two, what is your name?", 'Player Two');
 
                     footer_top.textContent = footer_bottom.textContent;
@@ -207,7 +156,7 @@ const setupPlayers = () => {
 
                     // Get Player 2 Symbol:
 
-                    setTimeout(() => {
+                    // setTimeout(() => {
                         let player2Symbol = player1Symbol === 'X' ? 'O' : 'X';
                         alert(`${player2Name} will play as ${player2Symbol}`)
 
@@ -215,18 +164,18 @@ const setupPlayers = () => {
                         footer_bottom.textContent = `${player2Name} will play as ${player2Symbol}`;
                         p2_symbol.textContent = player2Symbol;
 
-                        setTimeout(() => {
+                        // setTimeout(() => {
                             footer_top.textContent = footer_bottom.textContent
                             footer_bottom.textContent = "Click the board to play the game!"
-                        }, 500);
+                        // }, 500);
 
                         return { player1Name, player1Symbol, player2Name, player2Symbol };
 
-                    }, 100);
-                }, 100);
-            }, 100);
-        }, 100);
-    }, 100);
+    //                 }, 100);
+    //             }, 100);
+    //         }, 100);
+    //     }, 100);
+    // }, 100);
 }
 
 const playersInfo = setupPlayers();
@@ -237,17 +186,15 @@ const player2 = new Player(playersInfo.player2Name, playersInfo.player2Symbol);
 console.log(player1);
 console.log(player2);
 
-const playGame = function () {
+function playGame() {
 
     if (activePlayer === 1) {
         footer_top.textContent = footer_bottom.textContent
-        footer_bottom = `${player1.name}, which square would you like your ${player1.symbol} in?`;
+        footer_bottom.textContent = `${player1.name}, which square would you like your ${player1.symbol} in?`;
     } else {
         footer_top.textContent = footer_bottom.textContent
-        footer_bottom = `${player1.name}, which square would you like your ${player1.symbol} in?`;
+        footer_bottom.textContent = `${player1.name}, which square would you like your ${player1.symbol} in?`;
     }
-
-    // Adding the event listeners here!
 
     cells.forEach((cell, index) => {
         cell.addEventListener('click', () => {
@@ -279,56 +226,13 @@ const playGame = function () {
             }
         });
     });
-
-    // console.log(`Player ${activePlayer} chose square ${turnChoice}`)
-    // console.log(`This means that the target cell should be ${turnChoice - 1}, which has an ID of ${gameboard[turnChoice - 1][0]}. The value there is currently ${gameboard[turnChoice - 1][1]}`)
-
-    // if (turnChoice > 0 && turnChoice < 10) {
-
-    //     if (gameboard[turnChoice - 1][1] === undefined) {
-    //         // ChatGPT says this should be ''
-    //         if (activePlayer === 1) {
-    //             gameboard[turnChoice - 1][1] = player1.symbol;
-    //             console.log(`cell ID ${gameboard[turnChoice - 1][0]} updated to ${gameboard[turnChoice - 1][1]}`);
-    //         } else if (activePlayer === 2) {
-    //             gameboard[turnChoice - 1][1] = player2.symbol;
-    //             console.log(`cell ID ${gameboard[turnChoice - 1][0]} updated to ${gameboard[turnChoice - 1][1]}`);
-    //         }
-    //     } else {
-    //         alert("Oops. Please choose another square.");
-    //         playGame();
-    //     }
-    // } else {
-    //     alert("Please enter a number between 1 and 9");
-    //     playGame();
-    // }
-
-    // const winner = checkWin();
-    // console.log("checkWin() just ran. Did it work?!");
-
-    // if (winner) {
-    //     console.log(`${winner} has won!`);
-    //     return;
-    // }
-
-    // const full = checkFull();
-
-    // if (full) {
-    //     console.log("The board is full");
-    //     return;
-    // }
-
-    // switchPlayer();
-    // console.log(`The player is now ${activePlayer}`)
-    // console.log(gameboard)
-    // playGame();
 };
 
-const startGame = document.getElementById("middle_middle")
-startGame.addEventListener('click', playGame);
+cells.forEach((cell, index) => {
+    cell.addEventListener('click', playGame)
+})
 
 // To-do - Minor:
 // Add images for the 'Playing as:' sections of the board
 // Add a reset button?
 // Check line 48 - may need to be switched. This is if (gameboard[turnChoice - 1][1] === undefined) { to if (gameboard[turnChoice - 1][1] === '') {
-

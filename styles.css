@@ -165,6 +165,11 @@ div, button {
     border-right: 2px solid black;
 }
 
+button {
+    font-family: 'sofiaregular';
+    font-size: 5em;
+}
+
 button:hover {
     background-color: var(--light-blue-lighter);
 }
