@@ -243,3 +243,38 @@ console.log(player2);
 // Add images for the 'Playing as:' sections of the board
 // Add a reset button?
 // Check line 48 - may need to be switched. This is if (gameboard[turnChoice - 1][1] === undefined) { to if (gameboard[turnChoice - 1][1] === '') {
+
+// Logic for listening for and handling clicks for players taking turns:
+
+const cells = document.querySelectorAll('.cell');
+
+cells.forEach(cell => {
+    cell.addEventListener('click', function () {
+        if (!cell.textContent) {
+            if (activePlayer === 1) {
+                cell.textContent = player1.symbol;
+            } else {
+                cell.textContent = player2.symbol;
+            }
+
+            const winner = checkWin();
+            if (winner) {
+                footer_top.textContent = footer_bottom.textContent
+                footer_bottom.textContent = `${winner} has won!`;
+                return;
+            }
+
+            if (checkFull()) {
+                footer_top.textContent = footer_bottom.textContent
+                footer_bottom.textContent = "The board is full. Nobody wins!!";
+                return;
+            }
+
+            switchPlayer();
+
+        } else {
+            footer_top.textContent = footer_bottom.textContent
+            footer_bottom.textContent = "That cell is already taken. Choose another one.";
+        }
+    });
+});
