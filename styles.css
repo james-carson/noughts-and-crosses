@@ -199,24 +199,8 @@ button:hover {
 
 #footer {
     font-family: 'grand_hotelregular';
-    font-size: 2em;
-    display: grid;
-    grid-template-rows: 2fr 3fr;
-    text-align: center;
-}
-
-#footer_top, #footer_bottom {
+    font-size: 3em;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-}
-
-#footer_top{
-    align-items: end;
-    margin-top: 10px;
-}
-
-#footer_bottom{
-    font-weight: bold;
-    align-items: start;
+    align-items: center;
 }

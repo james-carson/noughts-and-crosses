@@ -58,7 +58,7 @@ const checkWin = function () {
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9],
-        [1, 5, 8],
+        [1, 5, 9],
         [3, 5, 7]
     ];
 
@@ -71,8 +71,9 @@ const checkWin = function () {
 
             let checkCell = ((winningConditions[i][j]) - 1);
 
-            console.log(`Check ref: ${i},${j}`)
-            console.log(`Cell being checked now is ${checkCell}. The ID of that cell is ${gameboard[checkCell][0]} What is in that cell is ${gameboard[checkCell][1]}`)
+            console.log(`Checking combination ${winningConditions[i]}`);
+            console.log(`Check ref: ${i},${j}`);
+            console.log(`Cell being checked now is ${checkCell}. The ID of that cell is ${gameboard[checkCell][0]} What is in that cell is ${gameboard[checkCell][1]}`);
 
             if (gameboard[checkCell][1] === 'X') {
                 Xcount++;
@@ -83,10 +84,10 @@ const checkWin = function () {
 
             if (Xcount === 3) {
                 alert(`${player1.name} wins!`);
-                return 'Xwin';
+                return `${player1.name}`;
             } else if (Ocount === 3) {
                 alert(`${player2.name} wins!`);
-                return 'Owin';
+                return `${player2.name}`;
             }
 
             console.log(`Xcount = ${Xcount}`);
@@ -114,68 +115,32 @@ const cells = Array.from(document.querySelectorAll('.cell'));
 
 const setupPlayers = () => {
 
-    // setTimeout(() => {
-        const footer_top = document.getElementById("footer_top");
-        const footer_bottom = document.getElementById("footer_bottom");
+    // Get Player 1 Name:
 
-        footer_top.textContent = 'Welcome to Tic Tac... Wait, no, that\'s not right...';
-        footer_bottom.textContent = 'Welcome to Noughts and Crosses!';
+    let player1Name = prompt("Player One, what is your name?", "Player One");
+    p1_name.textContent = player1Name;
 
-        // Get Player 1 Name:
+    // Get Player 1 Symbol:
 
-        // setTimeout(() => {
-            let player1Name = prompt("Player One, what is your name?", "Player One");
+    let player1Symbol;
+    do {
+        player1Symbol = prompt(`${player1Name}, would you like to play as X or O?`, 'X');
+    } while (player1Symbol !== 'X' && player1Symbol !== 'O');
+    p1_symbol.textContent = player1Symbol;
+    // I want to come back and add an image here!
 
-            footer_top.textContent = footer_bottom.textContent;
-            footer_bottom.textContent = `Player 1 has called themselves ${player1Name}`;
+    // Get Player 2 Name:
 
-            p1_name.textContent = player1Name;
+    let player2Name = prompt("Player Two, what is your name?", 'Player Two');
+    p2_name.textContent = player2Name;
 
-            // Get Player 1 Symbol:
+    // Get Player 2 Symbol:
 
-            // setTimeout(() => {
-                let player1Symbol;
-                do {
-                    player1Symbol = prompt(`${player1Name}, would you like to play as X or O?`, 'X');
-                } while (player1Symbol !== 'X' && player1Symbol !== 'O');
+    let player2Symbol = player1Symbol === 'X' ? 'O' : 'X';
+    alert(`${player2Name} will play as ${player2Symbol}`)
+    p2_symbol.textContent = player2Symbol;
 
-                footer_top.textContent = footer_bottom.textContent;
-                footer_bottom.textContent = `${player1Name} will play as ${player1Symbol}`;
-                p1_symbol.textContent = player1Symbol;
-                // I want to come back and add an image here!
-
-                // Get Player 2 Name:
-
-                // setTimeout(() => {
-                    let player2Name = prompt("Player Two, what is your name?", 'Player Two');
-
-                    footer_top.textContent = footer_bottom.textContent;
-                    footer_bottom.textContent = `Player 2 has called themselves ${player2Name}`;
-
-                    p2_name.textContent = player2Name;
-
-                    // Get Player 2 Symbol:
-
-                    // setTimeout(() => {
-                        let player2Symbol = player1Symbol === 'X' ? 'O' : 'X';
-                        alert(`${player2Name} will play as ${player2Symbol}`)
-
-                        footer_top.textContent = footer_bottom.textContent
-                        footer_bottom.textContent = `${player2Name} will play as ${player2Symbol}`;
-                        p2_symbol.textContent = player2Symbol;
-
-                        // setTimeout(() => {
-                            footer_top.textContent = footer_bottom.textContent
-                            footer_bottom.textContent = "Click the board to play the game!"
-                        // }, 500);
-
-                        return { player1Name, player1Symbol, player2Name, player2Symbol };
-
-    //                 }, 100);
-    //             }, 100);
-    //         }, 100);
-    //     }, 100);
-    // }, 100);
+    return { player1Name, player1Symbol, player2Name, player2Symbol };
 }
 
 const playersInfo = setupPlayers();
@@ -186,15 +151,21 @@ const player2 = new Player(playersInfo.player2Name, playersInfo.player2Symbol);
 console.log(player1);
 console.log(player2);
 
+const footer = document.getElementById("footer");
+
 function playGame() {
 
-    if (activePlayer === 1) {
-        footer_top.textContent = footer_bottom.textContent
-        footer_bottom.textContent = `${player1.name}, which square would you like your ${player1.symbol} in?`;
-    } else {
-        footer_top.textContent = footer_bottom.textContent
-        footer_bottom.textContent = `${player1.name}, which square would you like your ${player1.symbol} in?`;
+    console.log("GAME INITIATED")
+
+    function updateTurnText() {
+        if (activePlayer === 1) {
+            footer.textContent = `${player1.name}, which square would you like your ${player1.symbol} in?`;
+        } else {
+            footer.textContent = `${player2.name}, which square would you like your ${player2.symbol} in?`;
+        }
     }
+
+    updateTurnText();
 
     cells.forEach((cell, index) => {
         cell.addEventListener('click', () => {
@@ -203,34 +174,29 @@ function playGame() {
                 const currentSymbol = activePlayer === 1 ? player1.symbol : player2.symbol;
                 cell.textContent = currentSymbol;
                 gameboard[index][1] = currentSymbol;
+                console.log(`${currentSymbol} has just been placed in cell ref ${gameboard[index][0]}`)
 
                 const winner = checkWin();
                 if (winner) {
-                    footer_top.textContent = footer_bottom.textContent
-                    footer_bottom.textContent = `${winner} has won!`;
+                    footer.textContent = `${winner} has won!`;
                     return;
                 }
 
-                if (checkFull()) {
-                    footer_top.textContent = footer_bottom.textContent
-                    footer_bottom.textContent = "The board is full. Nobody wins!!";
+                if (checkFull()) { 
+                    footer.textContent = "The board is full. Nobody wins!!";
                     return;
                 }
 
                 switchPlayer();
+                updateTurnText();
                 playGame();
 
-            } else {
-                footer_top.textContent = footer_bottom.textContent
-                footer_bottom.textContent = "That cell is already taken. Choose another one.";
             }
         });
     });
 };
 
-cells.forEach((cell, index) => {
-    cell.addEventListener('click', playGame)
-})
+playGame();
 
 // To-do - Minor:
 // Add images for the 'Playing as:' sections of the board
