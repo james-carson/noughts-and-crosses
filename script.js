@@ -32,19 +32,33 @@ function switchPlayer() {
     console.log(`Player switched to Player ${activePlayer}`)
 }
 
+// Logic for updating the footer text:
+
+function updateTurnText() {
+    if (activePlayer === 1) {
+        footer.textContent = `${player1.name}, which square would you like your ${player1.symbol} in?`;
+    } else {
+        footer.textContent = `${player2.name}, which square would you like your ${player2.symbol} in?`;
+    }
+}
+
 // Logic for resetting the board - This probably won't be needed
 
 function resetBoard() {
-    const cellsRequired = 9;
-    const board = [];
-    let cell = 1;
-    let value = '';
 
-    for (let i = 0; i < cellsRequired; i++) {
-        board[i] = [];
-        board[i].push([cell, value]);
-        cell++;
-    }
+    console.log("Resetting Board")
+
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell, index) => {
+        cell.textContent = '';
+        gameboard[index][1] = '';
+        console.log(`Reset: ${gameboard[index][1]}`);
+    });
+
+console.log("Reset complete")
+
+    activePlayer = 1;
+    updateTurnText();
 }
 
 // Logic for checking for a win - now mostly working, except doesn't stop playing after a win
@@ -97,7 +111,7 @@ const checkWin = function () {
 }
 
 function checkFull() {
-    if (gameboard.every(cell => cell[1] !== undefined)) {
+    if (gameboard.every(cell => cell[1] !== '')) {
         alert("The board is full. Nobody wins!")
         return true;
     }
@@ -157,14 +171,6 @@ function playGame() {
 
     console.log("GAME INITIATED")
 
-    function updateTurnText() {
-        if (activePlayer === 1) {
-            footer.textContent = `${player1.name}, which square would you like your ${player1.symbol} in?`;
-        } else {
-            footer.textContent = `${player2.name}, which square would you like your ${player2.symbol} in?`;
-        }
-    }
-
     updateTurnText();
 
     cells.forEach((cell, index) => {
@@ -182,7 +188,7 @@ function playGame() {
                     return;
                 }
 
-                if (checkFull()) { 
+                if (checkFull()) {
                     footer.textContent = "The board is full. Nobody wins!!";
                     return;
                 }
@@ -198,7 +204,8 @@ function playGame() {
 
 playGame();
 
+const resetButton = document.getElementById("reset");
+resetButton.addEventListener('click', resetBoard);
+
 // To-do - Minor:
 // Add images for the 'Playing as:' sections of the board
-// Add a reset button?
-// Check line 48 - may need to be switched. This is if (gameboard[turnChoice - 1][1] === undefined) { to if (gameboard[turnChoice - 1][1] === '') {
