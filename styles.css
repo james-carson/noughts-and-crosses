@@ -145,7 +145,7 @@ body {
 
 #reset {
     background-color: white;
-    color: var(--dark-blue-lighter);
+    color: var(--turquoise);
     font-family: 'pacificoregular';
     font-size: 2.5em;
     height: 50%;
@@ -154,7 +154,7 @@ body {
 
 #reset:hover {
     background-color: var(--orange);
-    color: var(--dark-blue-lighter);
+    color: var(--turquoise);
 }
 
 #middle_left {
@@ -249,4 +249,12 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.x-symbol {
+    color: var(--orange);
+}
+
+.o-symbol {
+    color: var(--dark-blue-darker);
 }

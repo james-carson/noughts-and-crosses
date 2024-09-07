@@ -111,7 +111,7 @@ const checkWin = function () {
 }
 
 function checkFull() {
-    if (gameboard.every(cell => cell[1] !== '')) {
+    if (gameboard.every(cell => cell[1] === 'X' || cell[1] === 'O')) {
         alert("The board is full. Nobody wins!")
         return true;
     }
@@ -181,6 +181,8 @@ function playGame() {
                 cell.textContent = currentSymbol;
                 gameboard[index][1] = currentSymbol;
                 console.log(`${currentSymbol} has just been placed in cell ref ${gameboard[index][0]}`)
+
+                cell.classList.add(currentSymbol === 'X' ? 'x-symbol' : 'o-symbol');
 
                 const winner = checkWin();
                 if (winner) {
