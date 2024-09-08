@@ -1,5 +1,7 @@
 # noughts-and-crosses
 
+Project completed 8/09/2024
+
 Welcome to the first README I have written during this course! From now, I will try to do this for each project that I complete in order to better reflect and learn.
 
 I found this project surprisingly frustrating. The instructions suggested that the best way to approach the project was to create the logic for a console-based game, get that working, and then add the UI and tweak the logic.
