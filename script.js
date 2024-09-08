@@ -15,7 +15,7 @@ const gameboard = function () {
     return board;
 }();
 
-// Logic for creation and storage of players
+// Logic for creation and storage of players:
 
 function Player(name, symbol) {
     this.name = name;
@@ -42,7 +42,7 @@ function updateTurnText() {
     }
 }
 
-// Logic for resetting the board - This probably won't be needed
+// Logic for resetting the board, including gameboard data:
 
 function resetBoard() {
 
@@ -61,7 +61,7 @@ console.log("Reset complete")
     updateTurnText();
 }
 
-// Logic for checking for a win - now mostly working, except doesn't stop playing after a win
+// Logic for checking for a win. This iterates over the possible winning combinations, checking for X's and O's and tallying them for each:
 
 const checkWin = function () {
 
@@ -110,6 +110,8 @@ const checkWin = function () {
     }
 }
 
+// Logic for checking if the board is full:
+
 function checkFull() {
     if (gameboard.every(cell => cell[1] === 'X' || cell[1] === 'O')) {
         alert("The board is full. Nobody wins!")
@@ -118,7 +120,7 @@ function checkFull() {
     return false;
 }
 
-// From here is the code to play the game with the interface:
+// These lines allow specific sections of the DOM to be manipulated:
 
 const p1_name = document.getElementById("p1_name");
 const p1_symbol = document.getElementById("p1_symbol");
@@ -126,6 +128,8 @@ const p2_name = document.getElementById("p2_name");
 const p2_symbol = document.getElementById("p2_symbol");
 
 const cells = Array.from(document.querySelectorAll('.cell'));
+
+// These lines set up the player objects with their names and symbols:
 
 const setupPlayers = () => {
 
@@ -157,6 +161,8 @@ const setupPlayers = () => {
     return { player1Name, player1Symbol, player2Name, player2Symbol };
 }
 
+// And this section then extracts that data for later use
+
 const playersInfo = setupPlayers();
 
 const player1 = new Player(playersInfo.player1Name, playersInfo.player1Symbol);
@@ -165,7 +171,11 @@ const player2 = new Player(playersInfo.player2Name, playersInfo.player2Symbol);
 console.log(player1);
 console.log(player2);
 
+// Ensuring the footer can be accessed so that it can be used as a text board
+
 const footer = document.getElementById("footer");
+
+// This is the main logic that allows the game to be played:
 
 function playGame() {
 
@@ -173,8 +183,12 @@ function playGame() {
 
     updateTurnText();
 
+    // Event listeners are used to detect which cell is being clicked on each turn
+
     cells.forEach((cell, index) => {
         cell.addEventListener('click', () => {
+
+            // It checks if the cell is empty before adding the correct symbol to both the UI and the gameboard, used in the background for checkWin() and checkFull():
 
             if (!cell.textContent) {
                 const currentSymbol = activePlayer === 1 ? player1.symbol : player2.symbol;
@@ -182,7 +196,11 @@ function playGame() {
                 gameboard[index][1] = currentSymbol;
                 console.log(`${currentSymbol} has just been placed in cell ref ${gameboard[index][0]}`)
 
+                // A class is added so that X's and O's can be coloured through a filter:
+
                 cell.classList.add(currentSymbol === 'X' ? 'x-symbol' : 'o-symbol');
+
+                // Checking for a win and for a full board:
 
                 const winner = checkWin();
                 if (winner) {
@@ -195,6 +213,8 @@ function playGame() {
                     return;
                 }
 
+                // Assuming all is well, we switch the player, ask the new one for their move, and start playGame() again:
+
                 switchPlayer();
                 updateTurnText();
                 playGame();
@@ -204,7 +224,11 @@ function playGame() {
     });
 };
 
+// This ensures that playGame() is called automatically after the players are set up
+
 playGame();
+
+// Listening for clicks on the reset button
 
 const resetButton = document.getElementById("reset");
 resetButton.addEventListener('click', resetBoard);
